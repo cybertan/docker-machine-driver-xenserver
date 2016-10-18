@@ -199,6 +199,7 @@ func (d *Driver) GetURL() (string, error) {
 
 func (d *Driver) GetIP() (string, error) {
 	status, err := d.GetState()
+	log.Infof("liyi debug  XenServer status %s...", status)
 	if err != nil {
 		return "", err
 	}
@@ -214,6 +215,7 @@ func (d *Driver) GetIP() (string, error) {
 
 	// Get doker machine by label name
 	vm, err := c.GetUniqueVMByNameLabel(d.MachineName)
+	log.Infof("liyi debug  XenServer MachineName %s  vm %s...", d.MachineName, vm)
 	if err != nil {
 		return "", err
 	}
@@ -223,6 +225,7 @@ func (d *Driver) GetIP() (string, error) {
 	if err != nil {
 		return "", err
 	}
+	log.Infof("liyi debug  metrics %s...", metrics)
 
 	// Get networks metrics
 	networks, ok := metrics["networks"]
@@ -230,6 +233,7 @@ func (d *Driver) GetIP() (string, error) {
 		return "", fmt.Errorf("Docker VM(%v) get network metrics error: \"networks\" not presented", d.MachineName)
 	}
 
+	log.Infof("liyi debug  networks %s...", networks)
 	net, ok := networks.(xmlrpc.Struct)
 	if !ok {
 		return "", fmt.Errorf("Docker VM(%v) get network metrics error: \"networks\" is not a xmlrpc.Struct instance", d.MachineName)
@@ -262,6 +266,7 @@ func (d *Driver) GetState() (state.State, error) {
 
 	// Get doker machine VM power state
 	powerState, err := vm.GetPowerState()
+	log.Infof("liyi debug  powerState %s...", powerState)
 	if err != nil {
 		return state.None, err
 	}
